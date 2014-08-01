@@ -12,8 +12,8 @@ public class Animation {
 	public boolean playedOnce = false;
 
 	public Animation(int time) {
-		// time is how long a frame will display in ms
-		
+		// time is how long a frame will display in milliseconds
+
 		this.time = time;
 		frames = new ArrayList<BufferedImage>();
 	}
@@ -35,13 +35,12 @@ public class Animation {
 		currentFrame = 0;
 		playedOnce = false;
 	}
-	
 
 	public void update() {
 		if (System.currentTimeMillis() - startTime > time) {
 			currentFrame++;
 			startTime = System.currentTimeMillis();
-			
+
 			if (currentFrame == frames.size()) {
 				currentFrame = 0;
 				playedOnce = true;

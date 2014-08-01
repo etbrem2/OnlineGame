@@ -71,7 +71,7 @@ public class Connection {
 		try {
 			String data = (String) in.readObject();
 
-			
+			//Test2
 
 			up = data.contains("up");
 			down = data.contains("down");

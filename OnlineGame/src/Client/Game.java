@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 
 public class Game extends JFrame {
 
-	//Test
 	
 	Game window;
 

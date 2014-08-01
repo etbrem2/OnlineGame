@@ -37,7 +37,7 @@ public class Animation {
 	}
 	
 	public void ok(){
-		
+		 //
 	}
 
 	public void update() {

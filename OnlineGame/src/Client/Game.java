@@ -107,17 +107,28 @@ public class Game extends JFrame {
 				while (running)
 					if (update)
 						try {
-							String data = "";
+							String buttons = "";
 
-							data = addDirections(data);
+							if (up)
+								buttons += "up/";
+							if (right)
+								buttons += "right/";
+							if (down)
+								buttons += "down/";
+							if (left)
+								buttons += "left/";
 							
-							data = addScreenSize(data);
+							if (window != null)
+								buttons += window.getWidth() + "/"
+										+ window.getHeight();
+							else
+								buttons += "600/600";
 							
-							if (!lastSent.equals(data)) {
-								out.writeObject(data);
+							if (!lastSent.equals(buttons)) {
+								out.writeObject(buttons);
 								out.flush();
 
-								lastSent = data;
+								lastSent = buttons;
 							}
 
 							update = false;

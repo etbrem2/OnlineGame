@@ -97,8 +97,9 @@ public class Game extends JFrame {
 	}
 
 	public void paint(Graphics g) {
-		// clear is a saved BufferedImage which clears the screen better then
-		// g.fillRect(..)
+		// clear is a white BufferedImage
+		// g.drawImage(image,x,y,width,height,null) draws the image to fill the
+		//  rectangle (x,y,width,height)
 
 		g.drawImage(clear, 0, 0, window.getWidth(), window.getHeight(), null);
 

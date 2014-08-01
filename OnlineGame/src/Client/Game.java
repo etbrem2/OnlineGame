@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 
 public class Game extends JFrame {
 
+	//Test
+	
 	Game window;
 
 	boolean up, right, down, left;

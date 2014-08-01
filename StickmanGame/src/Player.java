@@ -5,6 +5,7 @@ public class Player {
 
 	int x, y, speed = 10, sprintSpeed = 15;
 	int maxJumpSpeed = 30, speedY, gravity = 3;
+
 	boolean up, right, left, shift;
 	boolean jumping, touchingGround;
 
@@ -25,6 +26,7 @@ public class Player {
 		x = xx;
 		y = yy;
 	}
+	
 
 	public void addAnims() {
 		// There should only be one walk animation for both left and right
@@ -78,15 +80,18 @@ public class Player {
 		move();
 
 		animations.get(currentAnim).update();
+
 	}
 
 	public void checkCollision() {
-		if(y > Game.height
-				- animations.get(currentAnim).getImage().getHeight())
-			y = Game.height
+		if (y > Game.window.getHeight()
+				- animations.get(currentAnim).getImage().getHeight()) {
+
+			y = Game.window.getHeight()
 					- animations.get(currentAnim).getImage().getHeight();
-		
-		touchingGround = (y == Game.height
+			speedY = 0;
+		}
+		touchingGround = (y == Game.window.getHeight()
 				- animations.get(currentAnim).getImage().getHeight());
 	}
 
@@ -104,13 +109,13 @@ public class Player {
 
 		} else {
 			if (right) {
-				if (shift)
+				if (shift && touchingGround)
 					x += sprintSpeed;
 				else
 					x += speed;
 			}
 			if (left) {
-				if (shift)
+				if (shift && touchingGround)
 					x -= sprintSpeed;
 				else
 					x -= speed;
@@ -118,11 +123,11 @@ public class Player {
 			if (!touchingGround) {
 				speedY += gravity;
 
-				if (y + speedY < Game.height
+				if (y + speedY < Game.window.getHeight()
 						- animations.get(currentAnim).getImage().getHeight())
 					y += speedY;
 				else
-					y = Game.height
+					y = Game.window.getHeight()
 							- animations.get(currentAnim).getImage()
 									.getHeight();
 			}
@@ -135,6 +140,7 @@ public class Player {
 	}
 
 	public void decideAnim() {
+		int lastAnim = currentAnim;
 		if (right) {
 			if (shift)
 				currentAnim = sprintRight;
@@ -147,6 +153,7 @@ public class Player {
 			else
 				currentAnim = walkLeft;
 		}
+
 		if (right && left)
 			currentAnim = stand;
 		if (!left && !right)
@@ -158,13 +165,15 @@ public class Player {
 			touchingGround = false;
 		}
 
-		if (jumping) {
+		if (jumping || !touchingGround) {
 			currentAnim = jumpUp;
 			if (right && !left)
 				currentAnim = jumpRight;
 			if (left && !right)
 				currentAnim = jumpLeft;
 		}
+		if(lastAnim != currentAnim)
+			animations.get(currentAnim).start();
 	}
 
 	public void draw(Graphics g) {

@@ -12,11 +12,14 @@ public class Animation {
 	public boolean playedOnce = false;
 
 	public Animation(int time) {
+		// time is how long a frame will display in ms
+		
 		this.time = time;
 		frames = new ArrayList<BufferedImage>();
 	}
 
 	public void addFrame(String loc) {
+		// add an image to this animation
 		try {
 			BufferedImage temp = ImageIO.read(getClass().getResourceAsStream(
 					loc));

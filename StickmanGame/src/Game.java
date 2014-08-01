@@ -7,14 +7,19 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
+	static Game window;
+
 	Player player;
 	static final int height = 700;
 	static final int width = 800;
-	boolean running;
 
+	boolean running, cleared = false;
 	BufferedImage clear;
 
 	public Game() {
+		super("Samuel's Game");
+
+		window = this;
 		player = new Player(100, 300);
 
 		addKeyListener(new KeyListener() {
@@ -79,7 +84,6 @@ public class Game extends JFrame {
 					try {
 						Thread.sleep(40);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -93,8 +97,10 @@ public class Game extends JFrame {
 	}
 
 	public void paint(Graphics g) {
+		// clear is a saved BufferedImage which clears the screen better then
+		// g.fillRect(..)
 
-		g.drawImage(clear, 0, 0, null);
+		g.drawImage(clear, 0, 0, window.getWidth(), window.getHeight(), null);
 
 		player.draw(g);
 	}

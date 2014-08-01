@@ -1,9 +1,10 @@
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Player {
 
-	int x, y, speed, sprintSpeed;
-	int maxJumpSpeed, speedY, gravity;
+	int x, y, speed = 10, sprintSpeed = 15;
+	int maxJumpSpeed = 30, speedY, gravity = 3;
 	boolean up, right, left, shift;
 	boolean jumping, touchingGround;
 
@@ -19,8 +20,10 @@ public class Player {
 	final int sprintRight = 6;
 	final int sprintLeft = 7;
 
-	public Player() {
+	public Player(int xx, int yy) {
 		addAnims();
+		x = xx;
+		y = yy;
 	}
 
 	public void addAnims() {
@@ -46,7 +49,7 @@ public class Player {
 		jumpRight.addFrame("SMjumpR.png");
 
 		Animation jumpLeft = new Animation(100);
-		jumpLeft.addFrame("SMjumpR.png");
+		jumpLeft.addFrame("SMjumpL.png");
 
 		Animation jumpUp = new Animation(100);
 		jumpUp.addFrame("stickmanJump.png");
@@ -78,20 +81,27 @@ public class Player {
 	}
 
 	public void checkCollision() {
+		if(y > Game.height
+				- animations.get(currentAnim).getImage().getHeight())
+			y = Game.height
+					- animations.get(currentAnim).getImage().getHeight();
 		
+		touchingGround = (y == Game.height
+				- animations.get(currentAnim).getImage().getHeight());
 	}
 
 	public void move() {
+
 		if (jumping) {
 			if (right)
 				x += speed;
 			if (left)
 				x -= speed;
 
-			if (!touchingGround)
-				speedY -= gravity;
-			
-			y += speedY;
+			speedY -= gravity;
+
+			y -= speedY;
+
 		} else {
 			if (right) {
 				if (shift)
@@ -105,7 +115,23 @@ public class Player {
 				else
 					x -= speed;
 			}
+			if (!touchingGround) {
+				speedY += gravity;
+
+				if (y + speedY < Game.height
+						- animations.get(currentAnim).getImage().getHeight())
+					y += speedY;
+				else
+					y = Game.height
+							- animations.get(currentAnim).getImage()
+									.getHeight();
+			}
 		}
+
+		if (touchingGround)
+			speedY = 0;
+		if (speedY == 0)
+			jumping = false;
 	}
 
 	public void decideAnim() {
@@ -123,6 +149,8 @@ public class Player {
 		}
 		if (right && left)
 			currentAnim = stand;
+		if (!left && !right)
+			currentAnim = stand;
 
 		if (up && touchingGround) {
 			jumping = true;
@@ -137,5 +165,9 @@ public class Player {
 			if (left && !right)
 				currentAnim = jumpLeft;
 		}
+	}
+
+	public void draw(Graphics g) {
+		g.drawImage(animations.get(currentAnim).getImage(), x, y, null);
 	}
 }

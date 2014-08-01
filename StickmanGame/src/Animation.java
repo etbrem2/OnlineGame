@@ -37,7 +37,6 @@ public class Animation {
 	}
 
 	public void update() {
-		//mkml
 		if (System.currentTimeMillis() - startTime > time) {
 			currentFrame++;
 			startTime = System.currentTimeMillis();

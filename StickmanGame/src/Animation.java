@@ -35,6 +35,10 @@ public class Animation {
 		currentFrame = 0;
 		playedOnce = false;
 	}
+	
+	public void ok(){
+		
+	}
 
 	public void update() {
 		if (System.currentTimeMillis() - startTime > time) {

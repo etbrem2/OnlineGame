@@ -71,19 +71,19 @@ public class Connection {
 		try {
 			String data = (String) in.readObject();
 
-			//Test2
+			String dir = getValues(data, "buttons");
+					
+			up = dir.contains("up");
+			down = dir.contains("down");
+			right = dir.contains("right");
+			left = dir.contains("left");
 
-			up = data.contains("up");
-			down = data.contains("down");
-			right = data.contains("right");
-			left = data.contains("left");
-
-		
+			String screenSize = getValues(data, "screenSize");
 			
-			String[]sizes = data.split("/");
+			String[]sizes = screenSize.split("/");
 			
-			maxWidth = Integer.parseInt(sizes[sizes.length-2]);
-			maxHeight = Integer.parseInt(sizes[sizes.length-1]);
+			maxWidth = Integer.parseInt(sizes[0]);
+			maxHeight = Integer.parseInt(sizes[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 			online = false;
@@ -95,12 +95,11 @@ public class Connection {
 			}
 		}
 	}
-
-/*	public String getValues(String data, String name) {
+	public String getValues(String data, String name) {
 		String open = "<" + name + ">";
 		String close = "</" + name + ">";
 		return data.substring(data.indexOf(open) + open.length(), data.indexOf(close));
-	}*/
+	}
 
 	public void move() {
 		if (right)

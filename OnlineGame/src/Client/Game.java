@@ -78,7 +78,8 @@ public class Game extends JFrame {
 
 		final Thread send = new Thread(new Runnable() {
 			public String addDirections(String buttons){
-				buttons += "<dir>";
+				buttons += "<buttons>";
+				
 				if (up)
 					buttons += "up/";
 				if (right)
@@ -87,8 +88,10 @@ public class Game extends JFrame {
 					buttons += "down/";
 				if (left)
 					buttons += "left/";
-
-				buttons+="</dir>";
+				if(buttons.equals("<dir>"))
+					buttons+="empty";
+				
+				buttons+="</buttons>";
 				
 				return buttons;
 			}
@@ -97,20 +100,24 @@ public class Game extends JFrame {
 				
 				if (window != null)
 					info += window.getWidth() + "/"
-							+ window.getHeight();
+							+ window.getHeight()+"";
 				else
 					info += "600/600";
 
-				info+="</screenSize";
+				info+="</screenSize>";
 				return info;
 			}
 			public void run() {
 				while (running)
 					if (update)
 						try {
-							String buttons = "";
+							String data = "";
 
-							if (up)
+							data = addDirections(data);
+							
+							data = addScreenSize(data);
+
+							/*if (up)
 								buttons += "up/";
 							if (right)
 								buttons += "right/";
@@ -123,13 +130,13 @@ public class Game extends JFrame {
 								buttons += window.getWidth() + "/"
 										+ window.getHeight();
 							else
-								buttons += "600/600";
+								buttons += "600/600";*/
 							
-							if (!lastSent.equals(buttons)) {
-								out.writeObject(buttons);
+							if (!lastSent.equals(data)) {
+								out.writeObject(data);
 								out.flush();
 
-								lastSent = buttons;
+								lastSent = data;
 							}
 
 							update = false;

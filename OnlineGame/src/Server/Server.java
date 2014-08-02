@@ -3,7 +3,6 @@ package Server;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
-
 import Client.Images;
 
 public class Server {
@@ -19,8 +18,8 @@ public class Server {
 		connections = new ArrayList<Connection>();
 		images = new Images();
 		enemy = new Enemy();
-
 		Thread sendToAll = new Thread(new Runnable() {
+
 			public void run() {
 				while (true) {
 					try {
@@ -28,32 +27,24 @@ public class Server {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
 					if (connections.size() > 0)
 						sendToAll();
-
 				}
 			}
 		});
-
 		sendToAll.start();
-
 		while (true) {
 			connections.add(new Connection(server.accept()));
 		}
-
 	}
 
 	public static void sendToAll() {
 		data = "";
-
 		for (int i = 0; i < connections.size(); i++) {
 			Connection c = connections.get(i);
 			data += c.user + "/" + type.player + "/" + c.x + "/" + c.y + "\n";
 		}
-
 		data += "Enemy/" + type.enemy + "/" + enemy.x + "/" + enemy.y + "\n";
-
 		if (!lastData.equals(data)) {
 			for (int i = 0; i < connections.size(); i++) {
 				final Connection c = connections.get(i);
@@ -70,7 +61,6 @@ public class Server {
 						e1.printStackTrace();
 					}
 				}
-
 			}
 			lastData = data;
 		}

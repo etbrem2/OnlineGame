@@ -3,7 +3,6 @@ package Server;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 
 public class Enemy {
@@ -14,6 +13,7 @@ public class Enemy {
 
 	public Enemy() throws IOException {
 		Thread move = new Thread(new Runnable() {
+
 			public void run() {
 				while (health > 0) {
 					Connection player = closest(Server.connections);
@@ -49,9 +49,11 @@ public class Enemy {
 
 		if (players.size() > 1) {
 			int min = Math.abs(closest.x - x) + Math.abs(closest.y - y);
+			
 			for (int i = 1; i < players.size(); i++) {
 				Connection temp = players.get(i);
-				int closeness =  Math.abs(temp.x - x) + Math.abs(temp.y - y);
+				
+				int closeness = Math.abs(temp.x - x) + Math.abs(temp.y - y);
 
 				if (closeness < min) {
 					min = closeness;

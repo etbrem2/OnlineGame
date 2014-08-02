@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
 import javax.imageio.ImageIO;
-
 import Client.Images;
 
 public class Connection {
@@ -16,9 +14,9 @@ public class Connection {
 	String user;
 	BufferedImage pic;
 
+	Socket socket;
 	ObjectInputStream in;
 	ObjectOutputStream out;
-	Socket socket;
 	boolean online = true;
 
 	int x, y, speed = 5;
@@ -27,10 +25,10 @@ public class Connection {
 	int maxWidth = 600, maxHeight = 600;
 
 	Thread update = new Thread(new Runnable() {
+
 		public void run() {
 			while (online) {
 				move();
-
 				try {
 					Thread.sleep(17);
 				} catch (InterruptedException e) {
@@ -42,7 +40,6 @@ public class Connection {
 
 	public Connection(Socket c) {
 		socket = c;
-
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
@@ -52,13 +49,13 @@ public class Connection {
 			pic = Server.images.imageFromID(type.player);
 
 			Thread getInfo = new Thread(new Runnable() {
+
 				public void run() {
 					while (online) {
 						getInfo();
 					}
 				}
 			});
-
 			getInfo.start();
 			update.start();
 		} catch (Exception e) {
@@ -70,18 +67,16 @@ public class Connection {
 	public void getInfo() {
 		try {
 			String data = (String) in.readObject();
-
 			String dir = getValues(data, "buttons");
-					
+
 			up = dir.contains("up");
 			down = dir.contains("down");
 			right = dir.contains("right");
 			left = dir.contains("left");
 
 			String screenSize = getValues(data, "screenSize");
-			
-			String[]sizes = screenSize.split("/");
-			
+			String[] sizes = screenSize.split("/");
+
 			maxWidth = Integer.parseInt(sizes[0]);
 			maxHeight = Integer.parseInt(sizes[1]);
 		} catch (Exception e) {
@@ -95,10 +90,12 @@ public class Connection {
 			}
 		}
 	}
+
 	public String getValues(String data, String name) {
 		String open = "<" + name + ">";
 		String close = "</" + name + ">";
-		return data.substring(data.indexOf(open) + open.length(), data.indexOf(close));
+		return data.substring(data.indexOf(open) + open.length(),
+		        data.indexOf(close));
 	}
 
 	public void move() {
@@ -110,12 +107,10 @@ public class Connection {
 			y += speed;
 		if (up)
 			y -= speed;
-
 		if (x < 0)
 			x = 0;
 		if (y < 0)
 			y = 0;
-
 		if (x + pic.getWidth() > maxWidth)
 			x = maxWidth - pic.getWidth();
 		if (y + pic.getHeight() > maxHeight)

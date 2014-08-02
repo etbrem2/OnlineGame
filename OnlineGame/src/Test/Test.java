@@ -4,8 +4,10 @@ import Client.Game;
 import Server.Server;
 
 public class Test {
+
 	public static void main(final String[] args) {
 		Thread server = new Thread(new Runnable() {
+
 			public void run() {
 				try {
 					Server.main(args);
@@ -14,7 +16,7 @@ public class Test {
 				}
 			}
 		});
-		Thread game1 = new Thread(new Runnable(){
+		Thread game1 = new Thread(new Runnable() {
 
 			public void run() {
 				try {
@@ -24,7 +26,8 @@ public class Test {
 				}
 			}
 		});
-		Thread game2 = new Thread(new Runnable(){
+		Thread game2 = new Thread(new Runnable() {
+
 			public void run() {
 				try {
 					Game.main(args);
@@ -33,7 +36,8 @@ public class Test {
 				}
 			}
 		});
-		Thread game3 = new Thread(new Runnable(){
+		Thread game3 = new Thread(new Runnable() {
+
 			public void run() {
 				try {
 					Game.main(args);
@@ -42,10 +46,10 @@ public class Test {
 				}
 			}
 		});
-		
+
 		server.start();
 		game1.start();
-	//	game2.start();
+		// game2.start();
 	}
 
 }

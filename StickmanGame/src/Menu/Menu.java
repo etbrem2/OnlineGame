@@ -11,9 +11,11 @@ import javax.swing.JFrame;
 public class Menu extends JFrame {
 
 	static Menu window;
-	String[] options = { "Solo", "Multiplayer", "Exit" };
+	String[] options = { "Solo", "Multiplayer", "Exit game" };
 	int solo = 0, multiplayer = 1, exit = 2;
 	int selected = 0;
+	boolean picked = false;
+	boolean toggle, updated = true;
 
 	BufferedImage bg;
 
@@ -39,19 +41,47 @@ public class Menu extends JFrame {
 							selected = 0;
 						break;
 					case KeyEvent.VK_ENTER:
-						if(selected == exit)
+						if (selected == exit)
 							System.exit(0);
-						if(selected == solo){
-							new Game();
-							window.dispose();
+						if (selected == solo) {
+							Thread start = new Thread(new Runnable(){
+								public void run() {
+									try{
+										//Thread.sleep(500);
+									}catch(Exception e){}
+									new Game();
+									window.dispose();
+								}
+							});
+							start.start();
 						}
+						picked = !picked;
 						break;
 				}
-				repaint();
+				updated = true;
 			}
 
 			public void keyReleased(KeyEvent e) {}
 		});
+
+		Thread refresh = new Thread(new Runnable() {
+
+			public void run() {
+				while (true) {
+					if (updated || picked)
+						repaint();
+
+					try {
+						if (picked)
+							Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
+		refresh.start();
 
 		setSize(600, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,9 +98,19 @@ public class Menu extends JFrame {
 			g.setFont(new Font("Arial", Font.BOLD, 16));
 
 			for (int i = 0; i < options.length; i++) {
-				if (i == selected)
-					g.setColor(Color.RED);
-				else
+				if (i == selected) {
+					if (!picked)
+						g.setColor(Color.RED);
+					else {
+
+						toggle = !toggle;
+						if (toggle)
+							g.setColor(Color.RED);
+						else
+							g.setColor(Color.white);
+
+					}
+				} else
 					g.setColor(Color.YELLOW);
 
 				int fontSize = g.getFont().getSize();
@@ -89,15 +129,12 @@ public class Menu extends JFrame {
 		int x = window.getWidth() / 2 - (options[selected].length() * fontSize)
 		        / 4;
 
-		if (false)
-			if (selected % 2 != 0)
-				x = window.getWidth() / 2
-				        + (options[selected].length() * fontSize) / 4;
-
 		g.setColor(Color.BLACK);
 		g.drawLine(0, y, window.getWidth(), y);
 
 		g.drawLine(x, 0, x, window.getHeight());
+
+		updated = false;
 	}
 
 	public static void main(String[] args) {

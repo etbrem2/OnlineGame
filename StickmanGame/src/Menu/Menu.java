@@ -44,11 +44,9 @@ public class Menu extends JFrame {
 						if (selected == exit)
 							System.exit(0);
 						if (selected == solo) {
-							Thread start = new Thread(new Runnable(){
+							Thread start = new Thread(new Runnable() {
+
 								public void run() {
-									try{
-										//Thread.sleep(500);
-									}catch(Exception e){}
 									new Game();
 									window.dispose();
 								}
@@ -73,8 +71,8 @@ public class Menu extends JFrame {
 
 					try {
 						if (picked)
-							Thread.sleep(100);
-					} catch (InterruptedException e) {
+							Thread.sleep(170);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -102,13 +100,12 @@ public class Menu extends JFrame {
 					if (!picked)
 						g.setColor(Color.RED);
 					else {
-
-						toggle = !toggle;
 						if (toggle)
 							g.setColor(Color.RED);
 						else
 							g.setColor(Color.white);
 
+						toggle = !toggle;
 					}
 				} else
 					g.setColor(Color.YELLOW);

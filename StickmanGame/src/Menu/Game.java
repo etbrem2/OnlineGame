@@ -1,3 +1,4 @@
+package Menu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -5,9 +6,10 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import Entity.Player;
 
 public class Game extends JFrame {
-	static Game window;
+	public static Game window;
 
 	Player player;
 	static final int height = 700;

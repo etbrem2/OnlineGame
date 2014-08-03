@@ -1,12 +1,15 @@
+package Entity;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import Display.Animation;
+import Menu.Game;
 
 public class Player {
 
 	int x, y, speed = 10, sprintSpeed = 15;
 	int maxJumpSpeed = 30, speedY, gravity = 3;
 
-	boolean up, right, left, shift;
+	public boolean up, right, left, shift;
 	boolean jumping, touchingGround;
 
 	ArrayList<Animation> animations;
@@ -37,32 +40,32 @@ public class Player {
 		animations = new ArrayList<Animation>();
 
 		Animation stand = new Animation(100);
-		stand.addFrame("stickman1.png");
+		stand.addFrame("/stickman1.png");
 
 		Animation walkRight = new Animation(100);
 		for (int i = 2; i < 6; i++)
-			walkRight.addFrame("stickman" + i + "R.png");
+			walkRight.addFrame("/stickman" + i + "R.png");
 
 		Animation walkLeft = new Animation(100);
 		for (int i = 2; i < 6; i++)
-			walkLeft.addFrame("stickman" + i + "L.png");
+			walkLeft.addFrame("/stickman" + i + "L.png");
 
 		Animation jumpRight = new Animation(100);
-		jumpRight.addFrame("SMjumpR.png");
+		jumpRight.addFrame("/SMjumpR.png");
 
 		Animation jumpLeft = new Animation(100);
-		jumpLeft.addFrame("SMjumpL.png");
+		jumpLeft.addFrame("/SMjumpL.png");
 
 		Animation jumpUp = new Animation(100);
-		jumpUp.addFrame("stickmanJump.png");
+		jumpUp.addFrame("/stickmanJump.png");
 
 		Animation sprintRight = new Animation(100);
 		for (int i = 1; i < 6; i++)
-			sprintRight.addFrame("stickman" + i + "SprintR.png");
+			sprintRight.addFrame("/stickman" + i + "SprintR.png");
 
 		Animation sprintLeft = new Animation(100);
 		for (int i = 1; i < 6; i++)
-			sprintLeft.addFrame("stickman" + i + "SprintL.png");
+			sprintLeft.addFrame("/stickman" + i + "SprintL.png");
 
 		animations.add(stand);
 		animations.add(walkRight);

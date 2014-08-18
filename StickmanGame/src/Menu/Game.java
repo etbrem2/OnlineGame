@@ -21,6 +21,8 @@ public class Game extends JFrame {
 	public Game() {
 		super("Samuel's Game");
 
+		// note: not actually samuel's game.
+		
 		window = this;
 		player = new Player(100, 300);
 

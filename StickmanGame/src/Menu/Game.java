@@ -23,6 +23,7 @@ public class Game extends JFrame {
 
 		// note: not actually samuel's game.
 		
+		
 		window = this;
 		player = new Player(100, 300);
 
